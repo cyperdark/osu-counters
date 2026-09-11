@@ -200,6 +200,11 @@ const DanUtilsPanel = {
 		alwaysVisible = false,
 		transparent = true
 	} = {}) {
+		const lastBaseSize = localStorage.getItem("dan-utils-base-size");
+
+		if (lastBaseSize && !isNaN(lastBaseSize))
+			document.documentElement.style.fontSize = `${lastBaseSize}px`;
+
 		this.alwaysVisible = alwaysVisible;
 		this.transparent = transparent;
 
@@ -672,6 +677,7 @@ const DanUtilsPanel = {
 	settings({
 		label = "dan",
 		accentColor = "#4db8ff",
+		baseSize = 16,
 		overrideUserId = -1,
 		keymodeOverride = "auto",
 		showBadges = true,
@@ -690,6 +696,10 @@ const DanUtilsPanel = {
 	}) {
 		this.container.body.labelNode.innerText = label;
 		this.container.style.setProperty("--background-rgb", hexToRgb(backgroundColor).join(", "));
+
+		document.documentElement.style.fontSize = `${baseSize}px`;
+		localStorage.setItem("dan-utils-base-size", baseSize.toString());
+
 		this.color = accentColor;
 
 		const userChanged = (this.overrideUserId !== overrideUserId);

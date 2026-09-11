@@ -16,6 +16,14 @@
 		"value": "#4db8ff"
 	},
 	{
+		"uniqueID": "baseSize",
+		"type": "number",
+		"title": "Base Size (px)",
+		"description": "Use this value to make the UI bigger or smaller.",
+		"options": [],
+		"value": 16
+	},
+	{
 		"uniqueID": "overrideUserId",
 		"type": "number",
 		"title": "Override User ID",
