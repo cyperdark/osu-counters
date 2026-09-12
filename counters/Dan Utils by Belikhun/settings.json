@@ -24,14 +24,6 @@
 		"value": 16
 	},
 	{
-		"uniqueID": "overrideUserId",
-		"type": "number",
-		"title": "Override User ID",
-		"description": "osu! user id to read dan estimates for. Set to -1 to follow the logged in player.",
-		"options": [],
-		"value": -1
-	},
-	{
 		"uniqueID": "keymodeOverride",
 		"type": "options",
 		"title": "Keymode",

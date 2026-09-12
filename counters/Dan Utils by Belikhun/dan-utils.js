@@ -187,7 +187,6 @@ const DanUtilsPanel = {
 	displayOnResultScreen: false,
 	transparent: true,
 
-	overrideUserId: -1,
 	keymodeOverride: "auto",
 	showBadges: true,
 	showSkillsets: true,
@@ -611,9 +610,6 @@ const DanUtilsPanel = {
 	 * @returns	{number}
 	 */
 	userId() {
-		if (this.overrideUserId > 0)
-			return this.overrideUserId;
-
 		return app.get("profile.id", 0);
 	},
 
@@ -678,7 +674,6 @@ const DanUtilsPanel = {
 		label = "dan",
 		accentColor = "#4db8ff",
 		baseSize = 16,
-		overrideUserId = -1,
 		keymodeOverride = "auto",
 		showBadges = true,
 		showSkillsets = true,
@@ -702,10 +697,8 @@ const DanUtilsPanel = {
 
 		this.color = accentColor;
 
-		const userChanged = (this.overrideUserId !== overrideUserId);
 		const keysChanged = (this.keymodeOverride !== keymodeOverride);
 
-		this.overrideUserId = overrideUserId;
 		this.keymodeOverride = keymodeOverride;
 		this.showBadges = showBadges;
 		this.showSkillsets = showSkillsets;
@@ -723,11 +716,10 @@ const DanUtilsPanel = {
 		this.container.style.setProperty("--border-radius", `${borderRadius}rem`);
 		this.container.classList.toggle("full-transparent", disableBackground);
 
-		if (userChanged || keysChanged)
+		if (keysChanged) {
 			this.refreshPlayer();
-
-		if (keysChanged)
 			this.refreshMap();
+		}
 
 		this.renderPlayer();
 		this.renderBeatmap();
