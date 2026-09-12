@@ -1011,18 +1011,17 @@ const DanUtilsPanel = {
 	refreshPlayer(force = false) {
 		const userId = this.userId();
 
-		if (!userId || userId <= 0) {
-			this.player = { status: "none", skills: null, stale: false };
-			this.renderPlayer();
-			return;
-		}
+		if (!userId || userId <= 0)
+			return this.clearPlayer();
 
-		if (force) {
-			this.loadPlayer(userId, true, new AbortController().signal);
-			return;
-		}
+		const key = (force) ? `player-${userId}-${Date.now()}` : `player-${userId}`;
+		this.playerGate.run(key, (signal) => this.loadPlayer(userId, force, signal));
+	},
 
-		this.playerGate.run(`player-${userId}`, (signal) => this.loadPlayer(userId, false, signal));
+	clearPlayer() {
+		this.playerGate.cancel();
+		this.player = { status: "none", skills: null, stale: false };
+		this.renderPlayer();
 	},
 
 	/**
