@@ -488,7 +488,7 @@ const DanUtilsPanel = {
 		app.subscribe("performance.graph", (graph) => {
 			this.strains = graph;
 			this.updateUnderlay();
-		});
+		}, "common", 4);
 
 		app.subscribe("beatmap.time.firstObject", (value) => {
 			this.timeFrom = value;
@@ -821,9 +821,6 @@ const DanUtilsPanel = {
 		this.mapGate.run(`${beatmapId}-${keys}-${rate}`, (signal) => this.loadMap(beatmapId, keys, signal));
 	},
 
-	/**
-	 * @param	{string}	status
-	 */
 	clearMap(status) {
 		this.mapGate.cancel();
 		this.setMap({ status });

@@ -38,7 +38,7 @@ const app = {
 
 	updateFilterTask: undefined,
 
-	/** @type {{ [channel: string]: { key: string, handler: (value: any) => void }[] }} */
+	/** @type {{ [channel: string]: { key: string, handler: (value: any) => void, depth: number }[] }} */
 	handlers: {
 		common: [],
 		precise: []
@@ -150,11 +150,14 @@ const app = {
 	 * @param	{string}				key
 	 * @param	{(value: any) => void}	handler
 	 * @param	{"common" | "precise"}	channel
+	 * @param	{number}				depth		How far into a nested value to look before
+	 * 												calling it unchanged.
 	 */
-	subscribe(key, handler, channel = "common") {
+	subscribe(key, handler, channel = "common", depth = 1) {
 		this.handlers[channel].push({
 			key,
-			handler
+			handler,
+			depth
 		});
 
 		this.addFilter(key, channel);
@@ -250,10 +253,9 @@ const app = {
 		return this;
 	},
 
-	isChanged(value1, value2) {
-		// Can't efficiently compare objects yet.
+	isChanged(value1, value2, depth = 1) {
 		if (value1 && typeof value1 == "object")
-			return !isObjectEqual(value1, value2, 1);
+			return !isObjectEqual(value1, value2, depth);
 
 		return value1 != value2;
 	},
@@ -262,11 +264,11 @@ const app = {
 		this.data[channel].previous = this.data[channel].current;
 		this.data[channel].current = data;
 
-		for (const { key, handler } of this.handlers[channel]) {
+		for (const { key, handler, depth } of this.handlers[channel]) {
 			let current = this.get(key, null, channel, "current");
 			let previous = this.get(key, null, channel, "previous");
 
-			if (!this.isChanged(current, previous))
+			if (!this.isChanged(current, previous, depth))
 				continue;
 
 			try {
