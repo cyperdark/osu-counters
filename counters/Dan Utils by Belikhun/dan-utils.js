@@ -806,19 +806,27 @@ const DanUtilsPanel = {
 		const keys = this.keys();
 
 		if (!beatmapId || !mode)
-			return this.setMap({ status: "idle" });
+			return this.clearMap("idle");
 
 		if (mode !== "mania")
-			return this.setMap({ status: "notMania" });
+			return this.clearMap("notMania");
 
 		if (app.get("beatmap.isConvert", false))
-			return this.setMap({ status: "convert" });
+			return this.clearMap("convert");
 
 		if (!Dan.ladder(keys, "rc"))
-			return this.setMap({ status: "unsupported" });
+			return this.clearMap("unsupported");
 
 		const rate = Dan.rateKey(this.rate());
 		this.mapGate.run(`${beatmapId}-${keys}-${rate}`, (signal) => this.loadMap(beatmapId, keys, signal));
+	},
+
+	/**
+	 * @param	{string}	status
+	 */
+	clearMap(status) {
+		this.mapGate.cancel();
+		this.setMap({ status });
 	},
 
 	/**
