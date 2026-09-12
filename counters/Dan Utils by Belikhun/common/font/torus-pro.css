@@ -1,17 +1,3 @@
-/**
- * /assets/fonts/TorusPro/TorusPro.css
- * 
- * TorusPro font definition.
- * 
- * This file is licensed under the MIT License.
- * See LICENSE in the project root for license information.
- * 
- * @author		Belikhun
- * @version		1.0
- * @license		MIT
- * @copyright	2018-2023 Belikhun
- */
-
 @font-face {
     font-family: "Torus Pro";
     src: local("Torus Pro Bold"), local("TorusPro-Bold"),
